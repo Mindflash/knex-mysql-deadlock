@@ -7,8 +7,16 @@ const util = require('util');
 const Client_MySQL = require('knex/lib/dialects/mysql');
 
 class Client_MySQL_deadlock extends Client_MySQL {
+  constructor(config) {
+    super(config);
+
+    const { deadlockRetries } = config.options;
+
+    this.deadlockRetries = deadlockRetries || 5;
+  }
+
   _query(connection, obj) {
-    let retryAmount = obj.retryAmount || 3;
+    let retryAmount = this.deadlockRetries;
 
     const runQuery = () => Reflect.apply(super._query, this, arguments)
       .catch(error => {
