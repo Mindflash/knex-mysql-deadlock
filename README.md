@@ -15,3 +15,15 @@ const knex = require('knex')({
   connection: mysqlConfig
 });
 ```
+
+Specifying the number of deadlock retries, before throwing an error:
+
+```js
+const knex = require('knex')({
+  client: require('knex-mysql-deadlock'),
+  connection: mysqlConfig,
+  options: {
+    deadlockRetries: 5
+  }
+});
+```
