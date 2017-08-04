@@ -10,7 +10,7 @@ class Client_MySQL_deadlock extends Client_MySQL {
   constructor(config) {
     super(config);
 
-    const { deadlockRetries } = config.options;
+    const { deadlockRetries } = config.options || {};
 
     this.deadlockRetries = deadlockRetries || 5;
   }
