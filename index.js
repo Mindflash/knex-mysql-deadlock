@@ -20,8 +20,8 @@ class Client_MySQL_deadlock extends Client_MySQL {
 
     const runQuery = () => Reflect.apply(super._query, this, arguments)
       .catch(error => {
-        if (error.code === 'ER_LOCK_WAIT_TIMEOUT' && --retryAmount > 0) {
-          console.log(`${error.code} returned, retrying, (${retryAmount}) tries remaning: ${util.inspect(arguments, {depth:2})}`);
+        if (error.code === 'ER_LOCK_WAIT_TIMEOUT' && retryAmount-- > 0) {
+          console.log(`${error.code} returned, retrying, (${retryAmount}) tries remaining before error: ${util.inspect(arguments, {depth:2})}`);
 
           return runQuery();
         }
